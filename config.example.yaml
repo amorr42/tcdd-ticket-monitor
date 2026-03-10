@@ -1,0 +1,33 @@
+# TCDD Ticket Monitor — Configuration
+# Copy this file to config.yaml and fill in your values.
+# config.yaml is gitignored — never commit real credentials.
+
+# ─── Authentication ──────────────────────────────────────────────────────────
+# Token is fetched AUTOMATICALLY via Playwright on startup — no manual steps needed.
+# Playwright opens the TCDD website headlessly, intercepts the JWT from network traffic,
+# and caches it. Auto-refreshes when expired (every ~55 min).
+
+# API environment param (leave as "dev")
+environment: "dev"
+user_id: 1
+
+# ─── Telegram ────────────────────────────────────────────────────────────────
+# 1. Create a bot via @BotFather on Telegram → get bot_token
+# 2. Send any message to your bot, then visit:
+#    https://api.telegram.org/bot<YOUR_TOKEN>/getUpdates
+#    to find your chat_id in the response.
+telegram:
+  bot_token: "YOUR_BOT_TOKEN"
+  chat_id: "YOUR_CHAT_ID"              # channel/group for alerts
+  user_chat_id: "YOUR_USER_CHAT_ID"    # your personal Telegram ID for menu interaction
+
+# ─── Watch Rules ─────────────────────────────────────────────────────────────
+# Seed rules loaded on first start (if data/watches.json is empty).
+# After that, manage alarms via the Telegram bot menu.
+watches:
+  - from: "ANKARA GAR"
+    to: "İSTANBUL(HALKALI)"
+    date: "2025-03-28"       # YYYY-MM-DD
+    time_from: "00:00"       # filter trains departing between these times
+    time_to: "23:59"         # set both to 00:00/23:59 to watch all day
+    poll_interval: 120       # seconds between polls
